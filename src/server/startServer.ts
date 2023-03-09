@@ -1,8 +1,8 @@
-import "../../loadEnvirontment.js";
-import { app } from "../index.js";
+import "../loadEnvirontment.js";
+import { app } from "./index.js";
 import createDebug from "debug";
-import type CustomError from "../../CustomError/CustomError.js";
-import debugMessage from "../../tools/debugMessage.js";
+import type CustomError from "../CustomError/CustomError.js";
+import debugMessage from "../tools/debugMessage.js";
 
 const debug = createDebug("petAlert!:startServer");
 const startServer = async (port: number) =>
