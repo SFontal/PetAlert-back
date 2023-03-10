@@ -12,6 +12,7 @@ module.exports = {
       rules: {
         "no-implicit-coercion": "off",
         "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/consistent-type-definitions": "off",
       },
     },
   ],
