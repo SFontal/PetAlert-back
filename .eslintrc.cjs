@@ -13,6 +13,7 @@ module.exports = {
         "no-implicit-coercion": "off",
         "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/consistent-type-definitions": "off",
+        "new-cap": ["error", { capIsNewExceptions: ["Router"] }],
       },
     },
   ],
