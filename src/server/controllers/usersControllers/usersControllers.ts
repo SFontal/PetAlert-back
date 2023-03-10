@@ -21,38 +21,40 @@ export const loginUser = async (
 
   const { username, password } = req.body;
 
-  const user = await User.findOne({ username });
+  try {
+    const user = await User.findOne({ username }).exec();
 
-  if (!user) {
-    const message = "User not found!";
-    const publicMessage = "Wrong credentials";
-    const statusCode = 401;
-    const error = new CustomError(message, statusCode, publicMessage);
+    if (!user) {
+      const message = "User not found!";
+      const publicMessage = "Wrong credentials";
+      const statusCode = 401;
+      const error = new CustomError(message, statusCode, publicMessage);
 
+      throw error;
+    }
+
+    if (!(await bcrypt.compare(password, user.password))) {
+      const message = "Incorrect password!";
+      const publicMessage = "Wrong credentials";
+      const statusCode = 401;
+      const error = new CustomError(message, statusCode, publicMessage);
+
+      throw error;
+    }
+
+    const jwtPayload: CustomJwtPayload = {
+      username: user.username,
+      email: user.email,
+    };
+
+    const token = jwt.sign(jwtPayload, process.env.JWT_SECRET!, {
+      expiresIn: "2d",
+    });
+
+    debug(debugMessage(`${username} is logged!`));
+
+    res.status(200).json({ token });
+  } catch (error) {
     next(error);
-    return;
   }
-
-  if (!(await bcrypt.compare(password, user.password))) {
-    const message = "Incorrect password!";
-    const publicMessage = "Wrong credentials";
-    const statusCode = 401;
-    const error = new CustomError(message, statusCode, publicMessage);
-
-    next(error);
-    return;
-  }
-
-  const jwtPayload: CustomJwtPayload = {
-    username: user.username,
-    email: user.email,
-  };
-
-  const token = jwt.sign(jwtPayload, process.env.JWT_SECRET!, {
-    expiresIn: "2d",
-  });
-
-  debug(debugMessage(`${username} is logged!`));
-
-  res.status(200).json({ token });
 };
