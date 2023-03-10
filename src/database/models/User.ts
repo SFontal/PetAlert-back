@@ -10,6 +10,10 @@ const userSchema = new Schema({
     required: true,
     minlength: 8,
   },
+  email: {
+    type: String,
+    required: true,
+  },
   image: {
     type: Object,
     required: false,
