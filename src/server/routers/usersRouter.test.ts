@@ -21,7 +21,7 @@ afterAll(async () => {
   await mongodbServer.stop();
 });
 
-describe("Given a POST '/user/login' endpoint", () => {
+describe("Given a POST '/users/login' endpoint", () => {
   const username = "Pet";
   const password = "PetAdmin";
 
