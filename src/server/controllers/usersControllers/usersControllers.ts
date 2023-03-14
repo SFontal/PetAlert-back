@@ -19,10 +19,10 @@ export const loginUser = async (
 ) => {
   const debug = createDebug("petAlert!:loginUser");
 
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ username }).exec();
+    const user = await User.findOne({ email }).exec();
 
     if (!user) {
       const message = "User not found!";
@@ -51,7 +51,7 @@ export const loginUser = async (
       expiresIn: "2d",
     });
 
-    debug(debugMessage(`${username} is logged!`));
+    debug(debugMessage(`${email} is logged!`));
 
     res.status(200).json({ token });
   } catch (error) {

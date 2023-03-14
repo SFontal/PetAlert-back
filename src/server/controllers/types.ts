@@ -1,7 +1,7 @@
 import { type JwtPayload } from "jsonwebtoken";
 
 export interface UserCredentials {
-  username: string;
+  email: string;
   password: string;
 }
 
