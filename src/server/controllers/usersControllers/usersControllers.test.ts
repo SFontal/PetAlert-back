@@ -18,11 +18,11 @@ beforeEach(() => jest.clearAllMocks());
 
 describe("Given a loginUser controller", () => {
   const user: UserCredentials = {
-    username: "Pet",
+    email: "pet@petalert.com",
     password: "PetAdmin",
   };
 
-  describe("When it receives a request with a user which has a username 'Pet' and a password 'PetAdmin' and the user is not in the database", () => {
+  describe("When it receives a request with a user which has an email 'pete@petalert.com' and a password 'PetAdmin' and the user is not in the database", () => {
     test("Then it should call its next method with a status 401 and the message 'User not found!'", async () => {
       const message = "User not found!";
       const publicMessage = "Wrong credentials";
@@ -49,7 +49,7 @@ describe("Given a loginUser controller", () => {
     });
   });
 
-  describe("When it receives a request with a user which has a username 'Pet' and a password 'PetAdmin' and the user is in the database but the password is not correct", () => {
+  describe("When it receives a request with a user which has an email 'pete@petalert.com' and a password 'PetAdmin' and the user is in the database but the password is not correct", () => {
     test("Then it should call its next method with a status 401 and the message 'Incorrect password!'", async () => {
       const message = "Incorrect password!";
       const publicMessage = "Wrong credentials";
@@ -76,7 +76,7 @@ describe("Given a loginUser controller", () => {
     });
   });
 
-  describe("When it receives a request with a user which has a username 'Pet' and a password 'PetAdmin' and the user is in the database and the password is correct", () => {
+  describe("When it receives a request with a user which has an email 'pet@petalert.com' and a password 'PetAdmin' and the user is in the database and the password is correct", () => {
     test("Then it should call its status method with a 200", async () => {
       const statusCode = 200;
       req.body = user;

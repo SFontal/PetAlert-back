@@ -23,39 +23,40 @@ afterAll(async () => {
 
 describe("Given a POST '/users/login' endpoint", () => {
   const username = "Pet";
+  const email = "pet@pettest.com";
   const password = "PetAdmin";
 
   beforeAll(async () => {
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({ username, password: hashedPassword });
+    await User.create({ username, email, password: hashedPassword });
   });
 
-  describe("When it receives a request with a registered user with a username 'Pet' and a password 'PetAdmin'", () => {
+  describe("When it receives a request with a registered user with an email 'pet@pettest.com' and a password 'PetAdmin'", () => {
     test("Then it should response with status code 200", async () => {
       const expectedStatusCode = 200;
 
       const response = await request(app)
         .post(loginEndpoint)
-        .send({ username, password })
+        .send({ email, password })
         .expect(expectedStatusCode);
     });
 
     test("Then it should response with a token", async () => {
       const response = await request(app)
         .post(loginEndpoint)
-        .send({ username, password });
+        .send({ email, password });
 
       expect(response.body).toHaveProperty("token");
     });
   });
 
-  describe("When it receives a request with a non-registered user with a username 'Pete' and d password 'PetAdmin'", () => {
+  describe("When it receives a request with a non-registered user with an email 'pete@pettest.com' and a password 'PetAdmin'", () => {
     test("Then it should response with status code 401", async () => {
       const expectedStatusCode = 401;
 
       const response = await request(app)
         .post(loginEndpoint)
-        .send({ username: "Pete", password })
+        .send({ email: "pete@pettest.com", password })
         .expect(expectedStatusCode);
     });
 
@@ -64,19 +65,19 @@ describe("Given a POST '/users/login' endpoint", () => {
 
       const response = await request(app)
         .post(loginEndpoint)
-        .send({ username: "Pete", password });
+        .send({ email: "pete@pettest.com", password });
 
       expect(response.body).toHaveProperty("error", expectedMessage);
     });
   });
 
-  describe("When it receives a request with a non-registered user with a username 'Pet' and d password 'PeteAdmin'", () => {
+  describe("When it receives a request with a non-registered user with an email: 'pet@pettest.com' and a password 'PeteAdmin'", () => {
     test("Then it should response with status code 401", async () => {
       const expectedStatusCode = 401;
 
       const response = await request(app)
         .post(loginEndpoint)
-        .send({ username, password: "PeteAdmin" })
+        .send({ email, password: "PeteAdmin" })
         .expect(expectedStatusCode);
     });
 
@@ -85,7 +86,7 @@ describe("Given a POST '/users/login' endpoint", () => {
 
       const response = await request(app)
         .post(loginEndpoint)
-        .send({ username, password: "PeteAdmin" });
+        .send({ email, password: "PeteAdmin" });
 
       expect(response.body).toHaveProperty("error", expectedMessage);
     });
