@@ -1,13 +1,13 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
-import connectDatabase from "../../database/connectDataBase.js";
+import connectDatabase from "../../../database/connectDataBase.js";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import request from "supertest";
-import { app } from "../index.js";
-import User from "../../database/models/User.js";
+import { app } from "../../index.js";
+import User from "../../../database/models/User.js";
 
 let mongodbServer: MongoMemoryServer;
-const loginEndpoint = "/users/login";
+const loginPath = "/users/login";
 
 beforeAll(async () => {
   mongodbServer = await MongoMemoryServer.create();
@@ -35,15 +35,15 @@ describe("Given a POST '/users/login' endpoint", () => {
     test("Then it should response with status code 200", async () => {
       const expectedStatusCode = 200;
 
-      const response = await request(app)
-        .post(loginEndpoint)
+      await request(app)
+        .post(loginPath)
         .send({ email, password })
         .expect(expectedStatusCode);
     });
 
     test("Then it should response with a token", async () => {
       const response = await request(app)
-        .post(loginEndpoint)
+        .post(loginPath)
         .send({ email, password });
 
       expect(response.body).toHaveProperty("token");
@@ -54,8 +54,8 @@ describe("Given a POST '/users/login' endpoint", () => {
     test("Then it should response with status code 401", async () => {
       const expectedStatusCode = 401;
 
-      const response = await request(app)
-        .post(loginEndpoint)
+      await request(app)
+        .post(loginPath)
         .send({ email: "pete@pettest.com", password })
         .expect(expectedStatusCode);
     });
@@ -64,7 +64,7 @@ describe("Given a POST '/users/login' endpoint", () => {
       const expectedMessage = "Wrong credentials";
 
       const response = await request(app)
-        .post(loginEndpoint)
+        .post(loginPath)
         .send({ email: "pete@pettest.com", password });
 
       expect(response.body).toHaveProperty("error", expectedMessage);
@@ -75,8 +75,8 @@ describe("Given a POST '/users/login' endpoint", () => {
     test("Then it should response with status code 401", async () => {
       const expectedStatusCode = 401;
 
-      const response = await request(app)
-        .post(loginEndpoint)
+      await request(app)
+        .post(loginPath)
         .send({ email, password: "PeteAdmin" })
         .expect(expectedStatusCode);
     });
@@ -85,7 +85,7 @@ describe("Given a POST '/users/login' endpoint", () => {
       const expectedMessage = "Wrong credentials";
 
       const response = await request(app)
-        .post(loginEndpoint)
+        .post(loginPath)
         .send({ email, password: "PeteAdmin" });
 
       expect(response.body).toHaveProperty("error", expectedMessage);
