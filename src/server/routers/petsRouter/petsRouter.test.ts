@@ -37,9 +37,7 @@ describe("Given a GET '/pets' endpoint", () => {
     test("Then it should call its method status with 200", async () => {
       const expectedStatusCode = 200;
 
-      const response = await request(app)
-        .get(getPetsPath)
-        .expect(expectedStatusCode);
+      await request(app).get(getPetsPath).expect(expectedStatusCode);
     });
   });
 });
