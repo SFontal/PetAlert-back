@@ -15,7 +15,9 @@ describe("Given a getPets controller", () => {
   describe("When it receives a response and yo k sé, tío", () => {
     test("Then it should call its next method with a status 500 and a message 'Couldn't retrieve pets!'", async () => {
       const pets: PetsStructure = [];
-      Pet.find = jest.fn().mockResolvedValue(pets);
+      Pet.find = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockResolvedValue(pets),
+      }));
 
       const statusCode = 500;
       const message = "Couldn't retrieve pets!";
@@ -33,7 +35,9 @@ describe("Given a getPets controller", () => {
 
     test("Then it should call its method status with a 200", async () => {
       const pets: PetsStructure = [pet as PetStructure];
-      Pet.find = jest.fn().mockResolvedValue(pets);
+      Pet.find = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockResolvedValue(pets),
+      }));
 
       const statusCode = 200;
 
@@ -44,7 +48,9 @@ describe("Given a getPets controller", () => {
 
     test("Then it should call its method json with an object with a property pets", async () => {
       const pets: PetsStructure = [pet as PetStructure];
-      Pet.find = jest.fn().mockResolvedValue(pets);
+      Pet.find = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockResolvedValue(pets),
+      }));
 
       await getPets(req as Request, res as Response, next);
 

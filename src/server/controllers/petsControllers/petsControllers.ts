@@ -13,7 +13,7 @@ export const getPets = async (
   const debug = createDebug("petAlert!:getPets");
 
   try {
-    const pets: PetsStructure = await Pet.find();
+    const pets: PetsStructure = await Pet.find().exec();
 
     if (pets.length === 0) {
       const message = "Couldn't retrieve pets!";
