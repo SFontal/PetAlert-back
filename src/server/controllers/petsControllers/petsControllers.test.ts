@@ -30,11 +30,11 @@ describe("Given a getPets controller", () => {
     });
   });
 
-  describe("When it receives a response with list of one pet", () => {
+  describe("When it receives a response with a list of one pet", () => {
     const pet: Partial<PetStructure> = {};
+    const pets: PetsStructure = [pet as PetStructure];
 
     test("Then it should call its method status with a 200", async () => {
-      const pets: PetsStructure = [pet as PetStructure];
       Pet.find = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockResolvedValue(pets),
       }));
@@ -47,14 +47,13 @@ describe("Given a getPets controller", () => {
     });
 
     test("Then it should call its method json with an object with a property pets", async () => {
-      const pets: PetsStructure = [pet as PetStructure];
       Pet.find = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockResolvedValue(pets),
       }));
 
       await getPets(req as Request, res as Response, next);
 
-      expect(res.json).toHaveBeenCalledWith({ pets });
+      expect(res.json).toHaveBeenCalledWith(pets);
     });
   });
 });
