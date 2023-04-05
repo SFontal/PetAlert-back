@@ -15,7 +15,7 @@ const allowedOrigins = [
 const options: cors.CorsOptions = { origin: allowedOrigins };
 
 export const app = express();
-const userEndpoint = "/users";
+const userEndpoint = "/user";
 const petEndpoint = "/pets";
 
 app.use(helmet());
