@@ -7,7 +7,7 @@ import { app } from "../../index.js";
 import User from "../../../database/models/User.js";
 
 let mongodbServer: MongoMemoryServer;
-const loginPath = "/users/login";
+const loginPath = "/user/login";
 
 beforeAll(async () => {
   mongodbServer = await MongoMemoryServer.create();
@@ -21,7 +21,7 @@ afterAll(async () => {
   await mongodbServer.stop();
 });
 
-describe("Given a POST '/users/login' endpoint", () => {
+describe("Given a POST '/user/login' endpoint", () => {
   const username = "Pet";
   const email = "pet@pettest.com";
   const password = "PetAdmin";
